@@ -21,10 +21,10 @@ Recae en el no aclarar con que informacion usarlo, detalles particulares del pro
 
 ### Codigo Generado:
 
-[Original]()
+[Original](https://github.com/Linkinshura/GeneracionT/tree/main/TrabajosPracticos/TrabajoPractico1/Caso1/Original)
 
 
-[Mejorado]()
+[Mejorado](https://github.com/Linkinshura/GeneracionT/tree/main/TrabajosPracticos/TrabajoPractico1/Caso1/Mejorado)
 
 
 ### Validacion Personal:
