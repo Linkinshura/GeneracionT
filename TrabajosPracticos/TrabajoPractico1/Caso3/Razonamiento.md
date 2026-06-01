@@ -1,6 +1,7 @@
 # Anti Vibe Coding CHallenge
 
 **Alumno**:Ian Gutierrez
+
 **Año**:2026
 
 ## Star Wars para alumnos
