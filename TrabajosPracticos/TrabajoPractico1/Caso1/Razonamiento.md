@@ -1,4 +1,4 @@
-# Anti Vibe Coding CHallenge
+# Anti Vibe Coding Challenge
 
 **Alumno**:Ian Gutierrez
 **Año**:2026
