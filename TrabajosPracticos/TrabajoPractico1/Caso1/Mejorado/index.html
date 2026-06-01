@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokédex Completa</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Pokédex Completa</h1>
+
+    <div class="filtros">
+        <input
+            type="text"
+            id="busqueda"
+            placeholder="Buscar Pokémon..."
+        >
+
+        <select id="region">
+            <option value="">Todas las regiones</option>
+            <option value="1">Kanto</option>
+            <option value="2">Johto</option>
+            <option value="3">Hoenn</option>
+            <option value="4">Sinnoh</option>
+            <option value="5">Unova</option>
+            <option value="6">Kalos</option>
+            <option value="7">Alola</option>
+            <option value="8">Galar</option>
+        </select>
+
+        <select id="tipo">
+            <option value="">Todos los tipos</option>
+            <option value="normal">Normal</option>
+            <option value="fire">Fuego</option>
+            <option value="water">Agua</option>
+            <option value="grass">Planta</option>
+            <option value="electric">Eléctrico</option>
+            <option value="ice">Hielo</option>
+            <option value="fighting">Lucha</option>
+            <option value="poison">Veneno</option>
+            <option value="ground">Tierra</option>
+            <option value="flying">Volador</option>
+            <option value="psychic">Psíquico</option>
+            <option value="bug">Bicho</option>
+            <option value="rock">Roca</option>
+            <option value="ghost">Fantasma</option>
+            <option value="dragon">Dragón</option>
+            <option value="dark">Siniestro</option>
+            <option value="steel">Acero</option>
+            <option value="fairy">Hada</option>
+        </select>
+
+        <button id="mostrarFavoritos">
+            Ver Favoritos
+        </button>
+    </div>
+</header>
+
+<main>
+
+    <section>
+        <h2>Pokémon</h2>
+        <div id="listaPokemon" class="grid"></div>
+    </section>
+
+    <section>
+        <h2>Favoritos</h2>
+        <div id="favoritos" class="grid"></div>
+    </section>
+
+    <section>
+        <h2>Información</h2>
+        <div id="detallePokemon"></div>
+    </section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
