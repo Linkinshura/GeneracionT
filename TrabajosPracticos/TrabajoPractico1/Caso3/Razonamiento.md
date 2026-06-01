@@ -21,10 +21,10 @@ Un diseño bastante decolorido y aburrido a la vista de la gente, ademas de tene
 
 ### Codigo Generado:
 
-[Original]()
+[Original](https://github.com/Linkinshura/GeneracionT/tree/main/TrabajosPracticos/TrabajoPractico1/Caso3/Original)
 
 
-[Mejorado]()
+[Mejorado](https://github.com/Linkinshura/GeneracionT/tree/main/TrabajosPracticos/TrabajoPractico1/Caso3/Mejorado)
 
 
 ### Validacion Personal:
