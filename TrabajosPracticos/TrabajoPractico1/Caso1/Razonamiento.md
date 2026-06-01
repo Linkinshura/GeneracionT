@@ -1,6 +1,7 @@
 # Anti Vibe Coding Challenge
 
 **Alumno**:Ian Gutierrez
+
 **Año**:2026
 
 ## Pokedex con lista de favoritos
