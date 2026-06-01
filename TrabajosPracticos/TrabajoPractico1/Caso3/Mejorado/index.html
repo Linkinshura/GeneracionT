@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Star Wars Galaxy Explorer</title>
+
+    <meta name="description"
+        content="Explorador de personajes de Star Wars utilizando SWAPI y Star Wars Visual Guide">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="icon"
+        href="https://cdn-icons-png.flaticon.com/512/188/188987.png">
+</head>
+
+<body>
+
+    <!-- Fondo animado -->
+    <div class="stars"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+
+    <!-- Header -->
+    <header class="header">
+
+        <div class="header-content">
+
+            <h1 class="logo">
+                STAR WARS
+                <span>GALAXY EXPLORER</span>
+            </h1>
+
+            <p class="subtitle">
+                Explora personajes, especies, planetas y películas del universo Star Wars
+            </p>
+
+        </div>
+
+    </header>
+
+    <!-- Estadísticas -->
+    <section class="stats-container">
+
+        <div class="stat-card">
+            <h3 id="totalCharacters">0</h3>
+            <p>Personajes</p>
+        </div>
+
+        <div class="stat-card">
+            <h3 id="totalSpecies">0</h3>
+            <p>Especies</p>
+        </div>
+
+        <div class="stat-card">
+            <h3 id="favoritesCount">0</h3>
+            <p>Favoritos</p>
+        </div>
+
+    </section>
+
+    <!-- Filtros -->
+    <section class="filters-section">
+
+        <div class="filters-container">
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Buscar personaje..."
+                >
+
+                <button id="clearSearch">
+                    ✕
+                </button>
+
+            </div>
+
+            <select id="speciesFilter">
+                <option value="">
+                    Todas las especies
+                </option>
+            </select>
+
+            <select id="genderFilter">
+                <option value="">
+                    Todos los géneros
+                </option>
+            </select>
+
+            <select id="sortFilter">
+                <option value="name">
+                    Ordenar por Nombre
+                </option>
+
+                <option value="height">
+                    Ordenar por Altura
+                </option>
+
+                <option value="mass">
+                    Ordenar por Peso
+                </option>
+            </select>
+
+            <button id="favoritesButton" class="favorites-btn">
+                ★ Favoritos
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- Loader -->
+    <section
+        id="loadingSection"
+        class="characters-grid"
+    >
+
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+
+    </section>
+
+    <!-- Personajes -->
+    <main>
+
+        <section
+            id="charactersContainer"
+            class="characters-grid"
+        >
+        </section>
+
+        <div
+            id="emptyState"
+            class="empty-state hidden"
+        >
+            <h2>No se encontraron personajes</h2>
+            <p>Probá cambiando los filtros de búsqueda.</p>
+        </div>
+
+    </main>
+
+    <!-- Botón volver arriba -->
+    <button
+        id="scrollTopBtn"
+        class="scroll-top-btn"
+    >
+        ↑
+    </button>
+
+    <!-- Modal -->
+    <div
+        id="characterModal"
+        class="modal"
+    >
+
+        <div class="modal-content">
+
+            <button
+                id="closeModal"
+                class="close-modal"
+            >
+                ×
+            </button>
+
+            <div id="modalBody">
+
+                <!-- contenido dinámico -->
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Toast -->
+    <div
+        id="toast"
+        class="toast"
+    >
+        Acción realizada
+    </div>
+
+    <!-- Template Card -->
+    <template id="characterTemplate">
+
+        <article class="character-card">
+
+            <div class="image-container">
+
+                <img
+                    class="character-image"
+                    alt="Personaje Star Wars"
+                >
+
+                <button class="favorite-btn">
+                    ☆
+                </button>
+
+            </div>
+
+            <div class="character-info">
+
+                <h2 class="character-name"></h2>
+
+                <p class="character-species"></p>
+
+                <p class="character-gender"></p>
+
+                <div class="card-footer">
+
+                    <button class="details-btn">
+                        Ver detalles
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </template>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
