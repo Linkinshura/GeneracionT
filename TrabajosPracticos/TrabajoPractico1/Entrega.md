@@ -1,6 +1,7 @@
 # Anti Vibe Coding CHallenge
 
 **Alumno**:Ian Gutierrez
+
 **Año**:2026
 
 ## Pokedex con lista de favoritos
@@ -35,6 +36,7 @@ Considero que la utilizacion de la IA para la realizacion de proyectos puede ser
 # Anti Vibe Coding CHallenge
 
 **Alumno**:Ian Gutierrez
+
 **Año**:2026
 
 ## Star Wars para alumnos
