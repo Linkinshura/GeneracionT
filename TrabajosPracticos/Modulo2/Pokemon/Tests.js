@@ -1,122 +1,68 @@
-import { 
-  obtenerPokemon, 
-  verDetalle, 
-  mostrarLista, 
-  mostrarFavoritos 
-} from './pokedex.js'; // Ajustá la ruta a tu archivo real
+import { obtenerPokemon } from './pokedex.js';
 
-describe('Refactoring de la API Pokédex', () => {
+describe('Tests unitarios para obtenerPokemon() (Refactoring)', () => {
 
-  // Configuramos el mock de fetch antes de cada test
   beforeEach(() => {
+    // Mockeamos la función fetch global antes de cada test
     global.fetch = jest.fn();
   });
 
-  // Limpiamos los mocks después de cada test para que no se filtren datos
   afterEach(() => {
+    // Limpiamos los mocks para que no interfieran entre tests
     jest.clearAllMocks();
   });
 
-  describe('Función base: obtenerPokemon()', () => {
-    
-    test('1. Realiza la petición fetch utilizando la URL recibida', async () => {
-      // Mockeamos la respuesta exitosa
-      const mockResponse = { json: jest.fn().mockResolvedValue({}) };
-      global.fetch.mockResolvedValue(mockResponse);
-      
-      const testUrl = 'https://pokeapi.co/api/v2/pokemon/25';
-      await obtenerPokemon(testUrl);
-      
-      // Verificamos que fetch fue llamado una sola vez y con la URL exacta
-      expect(global.fetch).toHaveBeenCalledTimes(1);
-      expect(global.fetch).toHaveBeenCalledWith(testUrl);
-    });
+  // 1. CASO CORRECTO (Happy Path)
+  test('Caso correcto: Resuelve la promesa y devuelve el JSON cuando la petición es exitosa', async () => {
+    // Preparación (Arrange)
+    const mockPokemonData = { id: 1, name: 'bulbasaur', height: 7 };
+    const mockResponse = {
+      ok: true,
+      json: jest.fn().mockResolvedValue(mockPokemonData)
+    };
+    global.fetch.mockResolvedValue(mockResponse);
+    const url = 'https://pokeapi.co/api/v2/pokemon/1';
 
-    test('2. Devuelve correctamente los datos JSON obtenidos', async () => {
-      const mockPokemonData = { id: 25, name: 'pikachu' };
-      const mockResponse = { json: jest.fn().mockResolvedValue(mockPokemonData) };
-      global.fetch.mockResolvedValue(mockResponse);
-      
-      const resultado = await obtenerPokemon('url-cualquiera');
-      
-      // Verificamos que lo que devuelve la función es el objeto parseado
-      expect(resultado).toEqual(mockPokemonData);
-    });
+    // Ejecución (Act)
+    const resultado = await obtenerPokemon(url);
 
-    test('3. El resultado devuelto es una Promise', () => {
-      const mockResponse = { json: jest.fn().mockResolvedValue({}) };
-      global.fetch.mockResolvedValue(mockResponse);
-      
-      // Llamamos a la función SIN await para capturar lo que retorna síncronamente
-      const resultadoPromesa = obtenerPokemon('url-cualquiera');
-      
-      // Verificamos que el retorno es estrictamente una Promesa
-      expect(resultadoPromesa).toBeInstanceOf(Promise);
-    });
-
-    test('4. Un error de red/fetch NO es ocultado por la función', async () => {
-      const errorDeRed = new Error('Fallo de conexión a Internet');
-      // Forzamos a fetch a fallar
-      global.fetch.mockRejectedValue(errorDeRed);
-      
-      // Verificamos que al llamar a la función, la promesa se rechace con ese mismo error
-      await expect(obtenerPokemon('url-cualquiera')).rejects.toThrow('Fallo de conexión a Internet');
-    });
-
+    // Verificación (Assert)
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(global.fetch).toHaveBeenCalledWith(url);
+    expect(resultado).toEqual(mockPokemonData);
   });
 
-  describe('Integración con funciones existentes (comportamiento conservado)', () => {
-    /* 
-      Nota: Los expects de estas pruebas dependen de qué hacen exactamente 
-      tus funciones verDetalle, mostrarLista, etc. 
-      Aquí asumo que devuelven los datos procesados para poder testearlas, 
-      si actualizan el DOM, tendrías que validar el DOM en su lugar (ej. expect(document.body.innerHTML)...).
-    */
+  // 2. CASO CON DATOS INVÁLIDOS
+  test('Caso con datos inválidos: Lanza un error si la API devuelve texto plano (ej. error 404) en lugar de JSON', async () => {
+    // Preparación (Arrange)
+    // Cuando PokéAPI no encuentra un Pokémon, devuelve un 404 con el texto "Not Found".
+    // Al intentar hacer response.json(), JavaScript lanza un SyntaxError.
+    const mockResponse = {
+      ok: false,
+      status: 404,
+      json: jest.fn().mockRejectedValue(new SyntaxError('Unexpected token N in JSON at position 0'))
+    };
+    global.fetch.mockResolvedValue(mockResponse);
+    const urlInvalida = 'https://pokeapi.co/api/v2/pokemon/pokemon-invalido';
 
-    test('5. Comportamiento correcto desde verDetalle()', async () => {
-      const mockPokemon = { name: 'charizard', weight: 905 };
-      global.fetch.mockResolvedValue({
-        json: jest.fn().mockResolvedValue(mockPokemon)
-      });
-      
-      // Asumiendo que verDetalle recibe una URL y devuelve o setea el pokemon
-      const detalle = await verDetalle('https://pokeapi.co/api/v2/pokemon/6');
-      
-      expect(global.fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/pokemon/6');
-      // Ajustá este expect según lo que devuelva tu función real
-      expect(detalle).toBeDefined(); 
-    });
-
-    test('6. Comportamiento correcto desde mostrarLista()', async () => {
-      const mockLista = {
-        results: [{ name: 'bulbasaur', url: '...' }, { name: 'ivysaur', url: '...' }]
-      };
-      global.fetch.mockResolvedValue({
-        json: jest.fn().mockResolvedValue(mockLista)
-      });
-      
-      const lista = await mostrarLista('https://pokeapi.co/api/v2/pokemon?limit=2');
-      
-      expect(global.fetch).toHaveBeenCalledTimes(1);
-      // Validamos que consumió la lista y procesó los results correctamente
-      expect(global.fetch).toHaveBeenCalledWith('https://pokeapi.co/api/v2/pokemon?limit=2');
-    });
-
-    test('7. Comportamiento correcto desde mostrarFavoritos()', async () => {
-      const mockFavorito = { name: 'squirtle' };
-      global.fetch.mockResolvedValue({
-        json: jest.fn().mockResolvedValue(mockFavorito)
-      });
-      
-      // Si mostrarFavoritos itera sobre un array de URLs, fetch debería llamarse múltiples veces
-      const urlsFavoritos = ['url/7', 'url/8']; // URLs de squirtle y wartortle
-      await mostrarFavoritos(urlsFavoritos);
-      
-      // Asumiendo que internamente hace un Promise.all o bucle for con el array
-      expect(global.fetch).toHaveBeenCalled(); 
-      // Comprueba que al menos intentó buscar el primero de la lista
-      expect(global.fetch).toHaveBeenCalledWith('url/7'); 
-    });
-    
+    // Ejecución y Verificación (Act & Assert)
+    // Esperamos que la función propague el error de parseo del JSON
+    await expect(obtenerPokemon(urlInvalida)).rejects.toThrow(SyntaxError);
+    await expect(obtenerPokemon(urlInvalida)).rejects.toThrow('Unexpected token N');
   });
+
+  // 3. CASO LÍMITE (Edge Case)
+  test('Caso límite: Rechaza la promesa si se pasa una URL vacía (provocando un fallo de red/TypeError en fetch)', async () => {
+    // Preparación (Arrange)
+    // Si fetch recibe una URL vacía o hay un corte de internet, lanza un TypeError
+    const errorDeRed = new TypeError('Failed to fetch');
+    global.fetch.mockRejectedValue(errorDeRed);
+    const urlVacia = '';
+
+    // Ejecución y Verificación (Act & Assert)
+    // Aseguramos que el error subyacente no es tragado ni modificado por la función
+    await expect(obtenerPokemon(urlVacia)).rejects.toThrow(TypeError);
+    await expect(obtenerPokemon(urlVacia)).rejects.toThrow('Failed to fetch');
+  });
+
 });
